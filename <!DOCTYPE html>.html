@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Computing Stack</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', 'Monaco', monospace;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: gradient-shift 5s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(180deg); }
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+        
+        .stack-layers {
+            display: grid;
+            grid-template-rows: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .layer {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .layer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .layer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+            opacity: 0.6;
+        }
+        
+        .layer-1 {
+            border-color: #ff6b6b;
+            color: #ff9999;
+        }
+        
+        .layer-2 {
+            border-color: #4ecdc4;
+            color: #66d9d9;
+        }
+        
+        .layer-3 {
+            border-color: #45b7d1;
+            color: #6bb7e6;
+        }
+        
+        .layer-4 {
+            border-color: #96ceb4;
+            color: #a8d8c8;
+        }
+        
+        .layer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .layer-title {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .layer-number {
+            background: currentColor;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .layer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .code-example {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 0.9em;
+            border-left: 4px solid currentColor;
+            overflow-x: auto;
+        }
+        
+        .code-example h4 {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        
+        .flow-arrows {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: -15px 0;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #ffd700;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .transformation-demo {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 2px solid #ffd700;
+        }
+        
+        .transformation-demo h2 {
+            text-align: center;
+            color: #ffd700;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .demo-flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .demo-step {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid;
+            position: relative;
+        }
+        
+        .demo-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #ffd700;
+        }
+        
+        .demo-step:last-child::after {
+            display: none;
+        }
+        
+        .step-1 { border-color: #ff6b6b; }
+        .step-2 { border-color: #4ecdc4; }
+        .step-3 { border-color: #45b7d1; }
+        .step-4 { border-color: #96ceb4; }
+        
+        .technical-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .detail-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .detail-section h3 {
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-align: center;
+        }
+        
+        .mapping-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .mapping-table th,
+        .mapping-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mapping-table th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+            border-radius: 5px;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Semantic Computing Stack</h1>
+            <p class="subtitle">Natural Language → LISP → Forth → 2-PDA Execution</p>
+        </div>
+        
+        <div class="stack-layers">
+            <div class="layer layer-1">
+                <div class="layer-header">
+                    <div class="layer-title">🗣️ Natural Language + LangChain</div>
+                    <div class="layer-number">1</div>
+                </div>
+                <div class="layer-content">
+                    <div class="code-example">
+                        <h4>User Intent</h4>
+                        <pre>"Create a marketplace listing for vintage shoes, set the price to $75, and make it publicly visible"</pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>LangChain Processing</h4>
+                        <pre>const intent = await parseIntent(userInput);
+// Extract: action=create, object=listing, 
+// properties={item: "vintage shoes", price: 75, visibility: "public"}</pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Semantic Extraction</h4>
+                        <pre>actions: ["create-container", "set-property", "apply-patch"]
+entities: {type: "listing", item: "vintage shoes"}
+values: {price: 75, status: "public"}</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrows">
+                <div class="arrow">⬇</div>
+            </div>
+            
+            <div class="layer layer-2">
+                <div class="layer-header">
+                    <div class="layer-title">🧮 LISP Axiom Layer</div>
+                    <div class="layer-number">2</div>
+                </div>
+                <div class="layer-content">
+                    <div class="code-example">
+                        <h4>Semantic Axioms</h4>
+                        <pre>(defaxiom create-listing
+  (lambda (item price visibility)
+    (seq (create-container :type 'listing)
+         (set-property :item item)
+         (set-property :price price)
+         (set-property :status visibility))))</pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Transformation Rules</h4>
+                        <pre>(defaxiom make-public
+  (lambda (container)
+    (apply-patch container 
+      (make-patch :transform 'set-visibility
+                  :value 'public))))</pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Execution Plan</h4>
+                        <pre>(create-listing "vintage shoes" 75 'public)
+;; Expands to:
+(seq (create-container)
+     (apply-patch (make-patch :set-item))
+     (apply-patch (make-patch :set-price))
+     (apply-patch (make-patch :publish)))</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrows">
+                <div class="arrow">⬇</div>
+            </div>
+            
+            <div class="layer layer-3">
+                <div class="layer-header">
+                    <div class="layer-title">🔧 Forth Macro Layer</div>
+                    <div class="layer-number">3</div>
+                </div>
+                <div class="layer-content">
+                    <div class="code-example">
+                        <h4>LISP→Forth Compiler</h4>
+                        <pre>: COMPILE-SEQ ( lisp-expr -- )
+  BEGIN
+    DUP CAR COMPILE-EXPR
+    CDR DUP NIL?
+  UNTIL DROP ;
+
+: COMPILE-CREATE-CONTAINER
+  S" create container" PROCESS-INTENT ;</pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Semantic Macros</h4>
+                        <pre>: CREATE-LISTING ( item price -- )
+  S" create container" PROCESS-INTENT
+  ROT MAKE-STRING
+  S" set-item" MAKE-PATCH APPLY-PATCH
+  SWAP 
+  S" set-price" MAKE-PATCH APPLY-PATCH ;
+
+: MAKE-PUBLIC ( container -- )
+  S" publish" MAKE-PATCH APPLY-PATCH ;</pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Generated Forth Code</h4>
+                        <pre>\ From LISP axiom compilation:
+S" vintage shoes" 75 CREATE-LISTING
+MAKE-PUBLIC
+S" seal container" PROCESS-INTENT</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrows">
+                <div class="arrow">⬇</div>
+            </div>
+            
+            <div class="layer layer-4">
+                <div class="layer-header">
+                    <div class="layer-title">⚙️ 2-PDA Execution Engine</div>
+                    <div class="layer-number">4</div>
+                </div>
+                <div class="layer-content">
+                    <div class="code-example">
+                        <h4>Stack Operations</h4>
+                        <pre>Main Stack (Γ₁):
+  Container[ID:123, "vintage shoes"]
+  Patch[transform: set-price, value: 75]
+  
+Aux Stack (Γ₂):
+  Certificate[ID:cert-creator]
+  Temp values for computation</pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Semantic Execution</h4>
+                        <pre>APPLY-PATCH executed:
+  - Validate certificate permissions
+  - Transform container state
+  - Update reference counts
+  - Return sealed container
+  
+Result: Container[ID:123, sealed=true]</pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>TypeScript Interface</h4>
+                        <pre>// Final result bubbles up:
+const result: SemanticContainer = {
+  id: "listing-123",
+  path: "/marketplace/shoes",
+  state: {
+    item: "vintage shoes",
+    price: 75,
+    status: "public"
+  },
+  certs: ["cert-creator"]
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="transformation-demo">
+            <h2>🔄 Complete Transformation Pipeline</h2>
+            <div class="demo-flow">
+                <div class="demo-step step-1">
+                    <h3>Natural Language</h3>
+                    <p>"Create a listing for vintage shoes at $75"</p>
+                    <small>LangChain extracts semantic intent</small>
+                </div>
+                <div class="demo-step step-2">
+                    <h3>LISP Axioms</h3>
+                    <p><code>(create-listing "vintage shoes" 75 'public)</code></p>
+                    <small>Formal semantic representation</small>
+                </div>
+                <div class="demo-step step-3">
+                    <h3>Forth Macros</h3>
+                    <p><code>S" vintage shoes" 75 CREATE-LISTING</code></p>
+                    <small>Stack-based operations</small>
+                </div>
+                <div class="demo-step step-4">
+                    <h3>2-PDA Execution</h3>
+                    <p>Dual-stack semantic operations</p>
+                    <small>Deterministic execution</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="technical-details">
+            <div class="detail-section">
+                <h3>🏗️ Architecture Benefits</h3>
+                <table class="mapping-table">
+                    <tr>
+                        <th>Layer</th>
+                        <th>Purpose</th>
+                        <th>Benefit</th>
+                    </tr>
+                    <tr>
+                        <td><span class="highlight">Natural Language</span></td>
+                        <td>User Interface</td>
+                        <td>Accessibility</td>
+                    </tr>
+                    <tr>
+                        <td><span class="highlight">LISP Axioms</span></td>
+                        <td>Formal Logic</td>
+                        <td>Composability</td>
+                    </tr>
+                    <tr>
+                        <td><span class="highlight">Forth Macros</span></td>
+                        <td>Compilation</td>
+                        <td>Efficiency</td>
+                    </tr>
+                    <tr>
+                        <td><span class="highlight">2-PDA Engine</span></td>
+                        <td>Execution</td>
+                        <td>Determinism</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="detail-section">
+                <h3>🔧 Implementation Strategy</h3>
+                <div class="code-example">
+                    <h4>1. LangChain Integration</h4>
+                    <pre>// Natural language → structured intent
+const intentParser = new LangChainParser({
+  model: "gpt-4",
+  schema: SemanticIntentSchema
+});</pre>
+                </div>
+                <div class="code-example">
+                    <h4>2. LISP Axiom Engine</h4>
+                    <pre>;; Semantic reasoning layer
+(defaxiom marketplace-operations
+  '((create-listing item price visibility)
+    (apply-discount container percent)
+    (transfer-ownership from to cert)))</pre>
+                </div>
+                <div class="code-example">
+                    <h4>3. Forth Code Generation</h4>
+                    <pre>// LISP → Forth compiler
+function compileLispToForth(lispExpr) {
+  return lispExpr.map(compileOperation)
+    .join('\n') + '\n SEMANTIC-REPL';
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
