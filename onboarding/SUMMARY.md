@@ -133,7 +133,7 @@
 
 #### STEM Course
 
-* [Web3 and Blockchain](03-learning-pathways/academic/web3-and-blockchain/README.md)
+* [Web3 and Blockchain](03-learning-pathways/academic/stem-course/README.md)
   * [Data, Information, Knowledge](03-learning-pathways/academic/stem-course/01-data-information-knowledge/README.md)
   * [Information Communication Tech](03-learning-pathways/academic/stem-course/02-information-communication-tech/README.md)
   * [Distributed Systems](03-learning-pathways/academic/stem-course/03-distributed-systems/README.md)
