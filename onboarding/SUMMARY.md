@@ -147,41 +147,32 @@
 
 ## Specialized Topics
 
-* [🔬 Deep Dives](04-specialized-topics/README.md)
-
-### Privacy and Identity
-
-* [Privacy & Identity Overview](04-specialized-topics/privacy-identity/README.md)
-  * [Path 1: Foundations](04-specialized-topics/privacy-identity/path-1-foundations/README.md)
-  * [Path 2: Technologies](04-specialized-topics/privacy-identity/path-2-technologies/README.md)
-  * [Path 3: System Design](04-specialized-topics/privacy-identity/path-3-system-design/README.md)
-  * [Path 4: Regulatory](04-specialized-topics/privacy-identity/path-4-regulatory/README.md)
-  * [Path 5: Applications](04-specialized-topics/privacy-identity/path-5-applications/README.md)
-
-### sCrypt Development
-
-* [sCrypt Overview](04-specialized-topics/scrypt-development/README.md)
-  * [Installation](04-specialized-topics/scrypt-development/installation.md)
-  * [BSV Basics](04-specialized-topics/scrypt-development/bsv-basics/README.md)
-    * [BSV Submodule](04-specialized-topics/scrypt-development/bsv-basics/bsv-submodule.md)
-  * [Writing Contracts](04-specialized-topics/scrypt-development/writing-contracts/README.md)
-    * [Contract Basics](04-specialized-topics/scrypt-development/writing-contracts/basics.md)
-    * [Built-in Functions](04-specialized-topics/scrypt-development/writing-contracts/built-ins.md)
-    * [ScriptContext](04-specialized-topics/scrypt-development/writing-contracts/scriptcontext.md)
-    * [Stateful Contracts](04-specialized-topics/scrypt-development/writing-contracts/stateful-contracts.md)
-  * [Deployment](04-specialized-topics/scrypt-development/deployment/README.md)
-    * [LARS Framework](04-specialized-topics/scrypt-development/deployment/lars-framework.md)
-  * [Testing](04-specialized-topics/scrypt-development/testing/README.md)
-  * [Debugging](04-specialized-topics/scrypt-development/debugging/README.md)
-  * [Frontend Integration](04-specialized-topics/scrypt-development/frontend-integration/README.md)
-  * [Tutorials](04-specialized-topics/scrypt-development/tutorials/README.md)
-
-### Implementation Strategies
-
-* [Strategies Overview](04-specialized-topics/implementation-strategies/README.md)
-  * [Enterprise Risk](04-specialized-topics/implementation-strategies/enterprise-risk-transformation.md)
-  * [Government & Regulatory](04-specialized-topics/implementation-strategies/government-and-regulatory-implementation.md)
-  * [Sector Specific](04-specialized-topics/implementation-strategies/sector-specific-applications.md)
+* [🔬 Specialized Topics](04-specialized-topics/README.md)
+  * [Privacy & Identity](04-specialized-topics/privacy-identity/README.md)
+    * [Path 1: Foundations](04-specialized-topics/privacy-identity/path-1-foundations/README.md)
+    * [Path 2: Technologies](04-specialized-topics/privacy-identity/path-2-technologies/README.md)
+    * [Path 3: System Design](04-specialized-topics/privacy-identity/path-3-system-design/README.md)
+    * [Path 4: Regulatory](04-specialized-topics/privacy-identity/path-4-regulatory/README.md)
+    * [Path 5: Applications](04-specialized-topics/privacy-identity/path-5-applications/README.md)
+  * [sCrypt Development](04-specialized-topics/scrypt-development/README.md)
+    * [Installation](04-specialized-topics/scrypt-development/installation.md)
+    * [BSV Basics](04-specialized-topics/scrypt-development/bsv-basics/README.md)
+      * [BSV Submodule](04-specialized-topics/scrypt-development/bsv-basics/bsv-submodule.md)
+    * [Writing Contracts](04-specialized-topics/scrypt-development/writing-contracts/README.md)
+      * [Contract Basics](04-specialized-topics/scrypt-development/writing-contracts/basics.md)
+      * [Built-in Functions](04-specialized-topics/scrypt-development/writing-contracts/built-ins.md)
+      * [ScriptContext](04-specialized-topics/scrypt-development/writing-contracts/scriptcontext.md)
+      * [Stateful Contracts](04-specialized-topics/scrypt-development/writing-contracts/stateful-contracts.md)
+    * [Deployment](04-specialized-topics/scrypt-development/deployment/README.md)
+      * [LARS Framework](04-specialized-topics/scrypt-development/deployment/lars-framework.md)
+    * [Testing](04-specialized-topics/scrypt-development/testing/README.md)
+    * [Debugging](04-specialized-topics/scrypt-development/debugging/README.md)
+    * [Frontend Integration](04-specialized-topics/scrypt-development/frontend-integration/README.md)
+    * [Tutorials](04-specialized-topics/scrypt-development/tutorials/README.md)
+  * [Implementation Strategies](04-specialized-topics/implementation-strategies/README.md)
+    * [Enterprise Risk](04-specialized-topics/implementation-strategies/enterprise-risk-transformation.md)
+    * [Government & Regulatory](04-specialized-topics/implementation-strategies/government-and-regulatory-implementation.md)
+    * [Sector Specific](04-specialized-topics/implementation-strategies/sector-specific-applications.md)
 
 ## Hackathon Pack
 
