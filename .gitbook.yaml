@@ -1,0 +1,5 @@
+root: ./onboarding/
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
