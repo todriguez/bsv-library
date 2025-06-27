@@ -16,7 +16,7 @@ BSV (Bitcoin Satoshi Vision) is the original Bitcoin protocol that maintains the
 
 ## 🎯 Why This Resource Exists
 
-This universal knowledge base consolidates all BSV learning resources, documentation, and guides into a single, authoritative source. Whether you're:
+This universal knowledge base provides all BSV learning resources, documentation, and guides in a single, authoritative source. Whether you're:
 
 - **Building** your first BSV application
 - **Evaluating** BSV for enterprise use
