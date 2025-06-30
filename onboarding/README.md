@@ -7,7 +7,7 @@ Welcome to the BSV Universal Knowledge Base - the most comprehensive resource fo
 ## 🚀 Start Here
 
 ### Quick Navigation
-- **[I'm New to BSV →](01-getting-started/README.md)** - Set up Metanet Desktop and connect apps
+- **[I'm New to BSV →](01-getting-started/README.md)** - Choose a wallet and get started
 - **[I'm a Developer →](03-learning-pathways/technical/README.md)** - Build BSV applications  
 - **[I'm Evaluating for Business →](03-learning-pathways/business/README.md)** - Understand the value
 - **[I Need Enterprise Solutions →](03-learning-pathways/enterprise/README.md)** - Plan deployments

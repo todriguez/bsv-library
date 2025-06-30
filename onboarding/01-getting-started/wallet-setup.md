@@ -6,9 +6,9 @@ Setting up a BSV wallet is your first step into the ecosystem. This guide covers
 
 ## 🎯 Quick Setup (5 minutes)
 
-### Recommended: Metanet Desktop Wallet
+### For Developers: Metanet Desktop Wallet
 
-The Metanet Desktop wallet is the most feature-rich option for developers and power users.
+If you're building BSV applications, you need Metanet Desktop Wallet. For simple payments, consider HandCash or CentBee instead.
 
 1. **Download the wallet**
    - Visit [Metanet Desktop](metanet-desktop.md)
@@ -34,7 +34,7 @@ The Metanet Desktop wallet is the most feature-rich option for developers and po
 
 | Wallet | Best For | Key Features |
 |--------|----------|--------------|
-| **Metanet Desktop** | Developers, Power Users | Identity management, Dev tools, Full node option |
+| **Metanet Desktop** | Application Developers | Build BSV apps, WalletClient SDK, Identity management |
 | **ElectrumSV** | Advanced Users | SPV, Hardware wallet support, Multi-sig |
 | **Bitcoin SV Node** | Node Operators | Full blockchain, Mining capability |
 

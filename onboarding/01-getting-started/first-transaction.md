@@ -1,10 +1,10 @@
-# Building BSV Applications with WalletClient
+# Building BSV Applications with Metanet Desktop Wallet
 
-## Why WalletClient?
+## Why Metanet Desktop Wallet?
 
 If you're looking for simple payments, wallets like HandCash or CentBee are perfect. But if you want to **build applications on BSV**, you need something more powerful.
 
-The WalletClient SDK solves a critical problem: **applications shouldn't need to build their own wallet infrastructure**. Instead, they can connect to the user's existing wallet and request actions.
+The Metanet Desktop Wallet solves a critical problem: **applications shouldn't need to build their own wallet infrastructure**. Instead, they can connect to the user's Metanet Desktop Wallet and request actions through the WalletClient SDK.
 
 ## 🏗️ Understanding the Architecture
 
@@ -14,9 +14,9 @@ Your App → Manages Keys → Signs Transactions → Broadcasts
          ↑ Security Risk!
 ```
 
-### WalletClient Approach (Do This)
+### Metanet Desktop Wallet Approach (Do This)
 ```
-Your App → WalletClient → User's Wallet → Signs Safely → Broadcasts
+Your App → WalletClient SDK → Metanet Desktop Wallet → Signs Safely → Broadcasts
          ↑ Keys Stay Secure!
 ```
 
@@ -66,7 +66,7 @@ export async function createToken(runner) {
 
 ### Actions, Not Transactions
 
-With WalletClient, you don't build raw transactions. You describe **actions** you want to perform:
+With Metanet Desktop Wallet, you don't build raw transactions. You describe **actions** you want to perform:
 
 ```typescript
 // Instead of building a complex transaction...
@@ -310,4 +310,4 @@ if (response.status === 'success') {
 
 ---
 
-**Remember**: WalletClient is for building applications, not for simple payments. It provides the infrastructure that lets you create rich, interactive BSV applications without the complexity of managing keys and wallets. Your users keep control of their funds while your app delivers amazing experiences!
+**Remember**: Metanet Desktop Wallet is for building applications, not for simple payments. It provides the infrastructure that lets you create rich, interactive BSV applications without the complexity of managing keys and wallets. Your users keep control of their funds while your app delivers amazing experiences!
