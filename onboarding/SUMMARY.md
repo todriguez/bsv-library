@@ -8,7 +8,7 @@
 
 * [🚀 Getting Started](01-getting-started/README.md)
   * [Wallet Setup](01-getting-started/wallet-setup.md)
-  * [First Transaction](01-getting-started/first-transaction.md)
+  * [Building BSV Applications](01-getting-started/first-transaction.md)
   * [Code Examples](01-getting-started/examples.md)
   * [Live Demos](01-getting-started/live-demos.md)
   * [Choose Your Path](01-getting-started/choose-your-path.md)
