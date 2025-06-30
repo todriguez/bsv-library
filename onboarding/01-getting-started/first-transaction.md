@@ -1,333 +1,250 @@
-# Your First BSV Transaction
+# Your First BSV Transaction with Metanet Desktop
 
-## Send and Receive BSV in Minutes
+## Understanding Metanet Desktop Architecture
 
-Making your first transaction is an important milestone. This guide walks you through sending and receiving BSV, understanding fees, and verifying transactions.
+Metanet Desktop is not a traditional wallet that allows direct sending and receiving to addresses. Instead, it's a sophisticated application platform that enables BSV applications to authenticate and request transaction signing.
 
-## 🚀 Quick Start: Send BSV
+## 🏗️ How Metanet Desktop Works
 
-### Prerequisites
-- ✅ BSV wallet installed ([Setup Guide](wallet-setup.md))
-- ✅ Some BSV in your wallet
-- ✅ Recipient's BSV address
+### Core Functionality
 
-### Step 1: Open Send Function
+Metanet Desktop serves as:
+- **Identity Provider**: Manages your BSV identity and keys
+- **Signing Service**: Signs transactions for authorized applications
+- **Authentication Layer**: Provides secure login to BSV applications
+- **Permission Manager**: Controls what applications can do with your identity
 
-In your wallet:
-1. Click "Send" or "Transfer"
-2. You'll see a form with fields for:
-   - Recipient address
-   - Amount to send
-   - Transaction fee (usually automatic)
-
-### Step 2: Enter Transaction Details
-
-```
-Recipient: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
-Amount: 0.001 BSV
-Fee: 0.00000200 BSV (automatic)
-```
-
-**Pro tip**: Always double-check the address!
-
-### Step 3: Review and Confirm
-
-Your wallet will show:
-- Total amount (including fee)
-- Recipient details
-- Estimated confirmation time
-
-Click "Send" to broadcast the transaction.
-
-### Step 4: Transaction Confirmation
-
-You'll receive:
-- Transaction ID (TXID)
-- Link to block explorer
-- Confirmation status
-
-**That's it!** Your first transaction is complete.
-
-## 📥 Receiving BSV
-
-### Generate Receive Address
-
-1. Click "Receive" in your wallet
-2. Your wallet generates a new address
-3. Share this address with the sender
-
-```
-Your address: 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2
-```
-
-### Address Formats
-
-BSV supports multiple address formats:
-
-| Format | Example | Use Case |
-|--------|---------|----------|
-| **Legacy** | `1A1zP1...` | Traditional Bitcoin format |
-| **Paymail** | `name@domain.com` | Human-readable addresses |
-| **Handle** | `$username` | Social payment handles |
-
-### Best Practices for Receiving
-
-1. **Use new addresses** for each transaction (privacy)
-2. **Verify amount** before considering payment complete
-3. **Wait for confirmations** for large amounts
-4. **Save transaction records** for accounting
-
-## 💡 Understanding BSV Transactions
-
-### Transaction Components
+### Architecture Overview
 
 ```mermaid
-graph LR
-    A[Your Wallet] -->|Input| B[Transaction]
-    B -->|Output| C[Recipient Wallet]
-    B -->|Fee| D[Miner]
-    B -->|Change| E[Back to You]
+graph TD
+    A[BSV Application] -->|Auth Request| B[Metanet Desktop]
+    B -->|User Approval| C[Permission Grant]
+    A -->|Transaction Request| B
+    B -->|Signed Transaction| A
+    A -->|Broadcast| D[BSV Network]
 ```
 
-### What Happens When You Send
+## 🚀 Making Your First Transaction
 
-1. **Wallet creates transaction**
-   - Selects inputs (your coins)
-   - Creates outputs (recipient + change)
-   - Signs with your private key
+### Step 1: Install a Compatible Application
 
-2. **Broadcast to network**
-   - Sent to BSV nodes
-   - Propagates across network
-   - Enters mempool
+Metanet Desktop works with applications built for the Metanet ecosystem. Popular options include:
 
-3. **Mining and confirmation**
-   - Miners include in block
-   - Block is mined
-   - Transaction confirmed
+1. **Twetch** - Social media platform
+2. **RelayX** - Super app with wallet features
+3. **MetaStreme** - Media streaming platform
+4. **Custom BSV Apps** - Any app using Metanet protocols
 
-## 📊 Transaction Fees Explained
+### Step 2: Connect Application to Metanet Desktop
 
-### Fee Structure
+1. Open the BSV application
+2. Click "Connect with Metanet" or similar
+3. Metanet Desktop will prompt for permission
+4. Review requested permissions:
+   - Read identity
+   - Sign transactions
+   - Access specific data
+5. Approve the connection
 
-BSV fees are incredibly low:
-- **Typical fee**: 1 satoshi/byte
-- **Average transaction**: ~250 bytes
-- **Total cost**: ~250 satoshis ($0.0001)
+### Step 3: Application-Initiated Transactions
 
-### Fee Calculation
+Once connected, the application can:
 
 ```javascript
-// Fee calculation example
-const txSize = 250; // bytes
-const feeRate = 1; // satoshi per byte
-const totalFee = txSize * feeRate; // 250 satoshis
-const feeInBSV = totalFee / 100000000; // 0.00000250 BSV
+// Example: Application requests transaction signing
+const transaction = {
+    outputs: [{
+        to: 'recipient-address',
+        amount: 100000, // satoshis
+        data: ['Hello', 'BSV']
+    }]
+};
+
+// Request signing from Metanet Desktop
+const signedTx = await metanet.signTransaction(transaction);
+
+// Application broadcasts the signed transaction
+const txid = await broadcast(signedTx);
 ```
 
-### When to Adjust Fees
+## 📱 Real-World Transaction Flow
 
-- **Standard transactions**: Use default (1 sat/byte)
-- **Large data**: May need higher fee
-- **Priority processing**: Slightly higher fee
-- **Testnet**: Often zero fee
+### Example: Social Media Post on Twetch
 
-## 🔍 Verifying Transactions
+1. **Compose Post** in Twetch application
+2. **Twetch Creates Transaction**:
+   - Post data
+   - Required fees
+   - Platform fees
+3. **Metanet Desktop Prompts**:
+   - "Twetch wants to sign a transaction"
+   - Shows transaction details
+   - Displays total cost
+4. **User Approves** in Metanet Desktop
+5. **Transaction Signed** and returned to Twetch
+6. **Twetch Broadcasts** to BSV network
+7. **Post Appears** on the platform
 
-### Using Block Explorers
+## 💡 Understanding Metanet Transactions
 
-Check your transaction on:
-- [WhatsOnChain](https://whatsonchain.com)
-- [BlockChair](https://blockchair.com/bitcoin-sv)
-- [BSVData](https://bsvdata.com)
+### Transaction Types via Applications
 
-### What to Look For
+1. **Data Storage**
+   - Social media posts
+   - File uploads
+   - Application data
 
-1. **Transaction ID**: Unique identifier
-2. **Confirmations**: Number of blocks
-3. **Inputs/Outputs**: Transaction flow
-4. **Fee**: Amount paid to miners
-5. **Block Height**: Which block includes it
+2. **Token Operations**
+   - Token transfers
+   - NFT minting
+   - Smart contract interactions
 
-### Transaction States
+3. **Identity Operations**
+   - Profile updates
+   - Attestations
+   - Verifications
 
-| State | Meaning | Action |
-|-------|---------|--------|
-| **Unconfirmed** | In mempool | Wait |
-| **1 Confirmation** | In latest block | Small amounts OK |
-| **6+ Confirmations** | Deep in chain | Fully secure |
+4. **Application-Specific**
+   - In-app purchases
+   - Service payments
+   - Subscription fees
 
-## 🎯 Common Transaction Types
+## 🔐 Security Model
 
-### 1. Simple Payment
+### Permission-Based Access
+
+Applications must request specific permissions:
+
 ```
-Input: Your coins
-Output: Recipient + Change
-Use: Regular transfers
-```
-
-### 2. Data Transaction
-```
-Input: Your coins
-Output: OP_RETURN data + Change
-Use: Storing data on-chain
-```
-
-### 3. Multi-Output
-```
-Input: Your coins
-Output: Multiple recipients + Change
-Use: Batch payments
-```
-
-### 4. Token Transaction
-```
-Input: Your coins + tokens
-Output: Token transfer + Change
-Use: Digital asset transfers
+✅ Read public profile
+✅ Sign transactions up to 0.01 BSV
+❌ Access private messages
+❌ Sign unlimited transactions
 ```
 
-## 💻 Programmatic Transactions
+### Transaction Approval
 
-### Using the SDK
+Every transaction requires explicit approval:
+- See exactly what you're signing
+- Review costs before approving
+- Revoke permissions anytime
+
+## 🛠️ Developer Perspective
+
+### Building Apps for Metanet Desktop
 
 ```javascript
-// Create a simple transaction
-const { Transaction, PrivateKey } = require('@bsv/sdk');
+// Initialize Metanet connection
+const metanet = new MetanetSDK({
+    app: 'MyApp',
+    permissions: ['identity', 'transactions']
+});
 
-// Create transaction
-const tx = new Transaction();
+// Request authentication
+const identity = await metanet.authenticate();
 
-// Add input (your UTXO)
-tx.from(utxo);
+// Create and sign transaction
+const tx = await metanet.createTransaction({
+    data: {
+        type: 'post',
+        content: 'Hello from MyApp!'
+    },
+    outputs: [{
+        amount: calculateFee(),
+        to: 'app-address'
+    }]
+});
 
-// Add output (recipient)
-tx.to('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', 50000);
-
-// Sign transaction
-tx.sign(privateKey);
-
-// Broadcast
-const txid = await tx.broadcast();
-console.log('Transaction ID:', txid);
+// Broadcast transaction
+const result = await metanet.broadcast(tx);
 ```
 
-### Transaction Builder Pattern
+## 🎯 Common Use Cases
 
-```javascript
-const payment = await wallet
-  .createTransaction()
-  .to(recipientAddress, amount)
-  .withFee(feeRate)
-  .withData(['Hello', 'BSV'])
-  .sign()
-  .broadcast();
-```
+### 1. Social Media Interactions
+- Post content
+- Like/comment
+- Follow users
+- Send tips
 
-## 🔒 Security Considerations
+### 2. Content Creation
+- Upload files
+- Mint NFTs
+- Create tokens
+- Publish articles
 
-### Before Sending
+### 3. Gaming
+- In-game purchases
+- Save game states
+- Trade items
+- Tournament entries
 
-- [ ] Verify recipient address (check twice!)
-- [ ] Confirm amount is correct
-- [ ] Check fee is reasonable
-- [ ] Ensure sufficient balance
+### 4. Business Applications
+- Sign documents
+- Create invoices
+- Process payments
+- Manage permissions
 
-### After Sending
+## 📊 Transaction Management
 
-- [ ] Save transaction ID
-- [ ] Monitor confirmations
-- [ ] Keep records for taxes
-- [ ] Verify recipient received
+### Viewing Transaction History
 
-### Common Mistakes to Avoid
+1. **In Metanet Desktop**:
+   - See approved transactions
+   - Review permissions granted
+   - Monitor application activity
 
-1. **Wrong address** - Always copy/paste
-2. **Wrong amount** - Check decimal places
-3. **Insufficient fee** - Use recommended
-4. **No backup** - Save transaction records
+2. **In Applications**:
+   - Application-specific history
+   - Detailed transaction records
+   - Export capabilities
 
-## 📈 Advanced Transaction Features
+3. **On Block Explorers**:
+   - [WhatsOnChain](https://whatsonchain.com)
+   - Full transaction details
+   - On-chain verification
 
-### Payment Channels
-For high-frequency transactions:
-- Open channel once
-- Many transactions off-chain
-- Close channel to settle
+## 🔧 Troubleshooting
 
-### Atomic Swaps
-Exchange different assets:
-- Trustless exchange
-- No intermediary
-- Automatic execution
+### Common Issues
 
-### Time-Locked Transactions
-Scheduled payments:
-- Future-dated transactions
-- Conditional releases
-- Escrow services
+**Application Can't Connect**
+- Ensure Metanet Desktop is running
+- Check firewall settings
+- Verify application compatibility
 
-## 🎓 Practice Exercises
+**Transaction Rejected**
+- Insufficient balance
+- Permission not granted
+- Application error
 
-### Exercise 1: Test Transaction
-1. Get testnet BSV from faucet
-2. Send to yourself
-3. Verify on explorer
-4. Check wallet balance
-
-### Exercise 2: Data Transaction
-1. Create message transaction
-2. Store "Hello BSV" on-chain
-3. Find it on explorer
-4. Decode the message
-
-### Exercise 3: Multi-Output
-1. Create transaction with 3 outputs
-2. Send to different addresses
-3. Calculate total fees
-4. Verify all received
-
-## 🆘 Troubleshooting
-
-### Transaction Not Confirming
-- Check fee amount
-- Verify network connectivity
-- Wait for next block
-- Contact wallet support
-
-### Balance Not Updating
-- Refresh wallet
-- Check transaction status
-- Verify correct network
-- Rescan blockchain
-
-### Wrong Amount Sent
-- Cannot reverse transactions
-- Contact recipient
-- Learn for next time
-- Use test amounts first
+**Signing Failed**
+- Check Metanet Desktop logs
+- Verify identity is unlocked
+- Review transaction details
 
 ## 📚 Next Steps
 
-Now that you've made your first transaction:
+Now that you understand Metanet Desktop:
 
-1. **[Explore Examples](examples.md)** - See advanced transactions
-2. **[Learn Development](../03-learning-pathways/technical/README.md)** - Build applications
-3. **[Understand Fees](../02-foundations/core-concepts.md)** - Deep dive
-4. **[Try Tokens](../04-specialized-topics/README.md)** - Digital assets
+1. **[Explore Compatible Apps](examples.md)** - Find applications to use
+2. **[Developer Guide](../03-learning-pathways/technical/README.md)** - Build your own apps
+3. **[Security Best Practices](../02-foundations/core-concepts.md)** - Stay safe
+4. **[Advanced Features](../04-specialized-topics/README.md)** - Power user guide
 
 ## 🔗 Resources
 
-### Tools
-- [Transaction Decoder](https://whatsonchain.com/decode)
-- [Fee Calculator](https://bsv.coin.dance/fee)
-- [Address Validator](https://www.blockchain.com/explorer)
+### For Users
+- [Metanet Desktop Documentation](https://docs.metanet.desktop)
+- [Compatible Applications List](https://metanet.apps)
+- [Community Support](https://discord.gg/metanet)
 
-### Learning
-- [Bitcoin Whitepaper](https://bitcoinsv.io/bitcoin.pdf)
-- [Transaction Format](https://wiki.bitcoinsv.io/index.php/Transaction)
-- [Script Reference](https://wiki.bitcoinsv.io/index.php/Script)
+### For Developers
+- [Metanet SDK](https://github.com/metanet/sdk)
+- [Integration Guide](https://docs.metanet.dev)
+- [Example Applications](https://github.com/metanet/examples)
 
 ---
 
-**Congratulations!** You've completed your first BSV transaction. Each transaction you make builds your understanding of how BSV works. Keep exploring and building!
+**Remember**: Metanet Desktop empowers you to interact with BSV applications securely while maintaining control of your keys and identity. It's not about sending to addresses directly - it's about enabling rich application experiences on BSV!

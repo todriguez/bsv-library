@@ -2,8 +2,7 @@
 
 ## Welcome to BSV
 
-* [🌍 Welcome](README.md)
-* [Universal Knowledge Base](00-welcome/README.md)
+* [🌍 BSV Universal Knowledge Base](README.md)
 
 ## Getting Started
 
