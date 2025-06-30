@@ -1,250 +1,381 @@
-# Your First BSV Transaction with Metanet Desktop
+# Your First BSV Transaction with WalletClient
 
-## Understanding Metanet Desktop Architecture
+## Understanding the BSV Wallet Architecture
 
-Metanet Desktop is not a traditional wallet that allows direct sending and receiving to addresses. Instead, it's a sophisticated application platform that enables BSV applications to authenticate and request transaction signing.
+The BSV wallet system uses the WalletClient SDK to enable applications to interact with user wallets securely. Instead of directly sending to addresses, you create "actions" that the wallet executes on your behalf.
 
-## 🏗️ How Metanet Desktop Works
+## 🚀 Quick Start: Create Your First Token
 
-### Core Functionality
+Let's start with something simple - creating a token that represents an event ticket and storing it in your wallet.
 
-Metanet Desktop serves as:
-- **Identity Provider**: Manages your BSV identity and keys
-- **Signing Service**: Signs transactions for authorized applications
-- **Authentication Layer**: Provides secure login to BSV applications
-- **Permission Manager**: Controls what applications can do with your identity
+### Step 1: Connect to Your Wallet
 
-### Architecture Overview
+```typescript
+import { WalletClient, Script } from '@bsv/sdk'
+
+// Connect to user's wallet
+const wallet = new WalletClient()
+```
+
+### Step 2: Create Your First Token
+
+```typescript
+export async function createToken() {
+    // Connect to user's wallet
+    const wallet = new WalletClient()
+
+    // Create a token which represents an event ticket
+    const response = await wallet.createAction({
+        description: 'create an event ticket',
+        outputs: [{
+            satoshis: 1,
+            lockingScript: Script.fromASM('OP_NOP').toHex(),
+            basket: 'event tickets',
+            outputDescription: 'event ticket'
+        }]
+    })
+
+    console.log('Token created!', response)
+    return response
+}
+```
+
+**What just happened?**
+- You connected to your wallet
+- Created an "action" that produces a new token
+- The token is stored in your "event tickets" basket
+- The wallet signed and broadcast the transaction
+
+## 📦 Understanding Baskets
+
+Baskets are like folders in your wallet that organize different types of tokens:
+
+```typescript
+export async function listTokens() {
+    const wallet = new WalletClient()
+
+    // List all tokens in your event tickets basket
+    const response = await wallet.listOutputs({
+        basket: 'event tickets'
+    })
+
+    console.log('Your tokens:', response)
+    return response
+}
+```
+
+## 🎟️ Redeem a Token
+
+Now let's spend (redeem) one of your tokens:
+
+```typescript
+export async function redeemToken() {
+    const wallet = new WalletClient()
+
+    // First, list your available tokens
+    const list = await wallet.listOutputs({
+        basket: 'event tickets',
+        include: 'entire transactions'
+    })
+
+    if (list.outputs.length === 0) {
+        console.log('No tokens to redeem!')
+        return
+    }
+
+    // Redeem the first token
+    const response = await wallet.createAction({
+        description: 'redeem an event ticket',
+        inputBEEF: list.BEEF,
+        inputs: [{
+            outpoint: list.outputs[0].outpoint,
+            unlockingScript: Script.fromASM('OP_TRUE').toHex(),
+            inputDescription: 'event ticket'
+        }]
+    })
+
+    console.log('Token redeemed!', response)
+    return response
+}
+```
+
+## 💬 Real-World Example: Hello World Message
+
+Let's create a more interesting transaction - posting a message to a public overlay:
+
+```typescript
+import { 
+    WalletClient, 
+    PushDrop, 
+    Utils, 
+    SecurityLevels, 
+    WalletProtocol, 
+    TopicBroadcaster, 
+    Transaction 
+} from '@bsv/sdk'
+
+export async function postHelloWorld() {
+    // Connect to wallet
+    const wallet = new WalletClient()
+    const token = new PushDrop(wallet)
+
+    // Create your message
+    const message = 'Hello BSV World!'
+    const fields = [Utils.toArray(message, 'utf8')]
+
+    // Set up protocol parameters
+    const protocolID: WalletProtocol = [SecurityLevels.Silent, 'hello world']
+    const keyID = Date.now().toString()
+    const counterparty = 'self'
+
+    // Create the locking script
+    const script = await token.lock(fields, protocolID, keyID, counterparty)
+
+    // Create the token with your message
+    const response = await wallet.createAction({
+        description: 'Post Hello World Message',
+        outputs: [{
+            satoshis: 1,
+            lockingScript: script.toHex(),
+            basket: 'hello world',
+            outputDescription: 'hello world message',
+            customInstructions: keyID
+        }]
+    })
+
+    // Broadcast to the hello world overlay
+    const tx = Transaction.fromBEEF(response.tx)
+    const overlay = new TopicBroadcaster(['tm_helloworld'])
+    const overlayResponse = await tx.broadcast(overlay)
+
+    console.log('Message posted!', overlayResponse)
+    return overlayResponse
+}
+```
+
+## 📡 Working with Overlays
+
+Overlays are specialized services that index and serve specific types of BSV data:
+
+### List Messages from an Overlay
+
+```typescript
+import { LookupResolver } from '@bsv/sdk'
+
+export async function listHelloWorldMessages() {
+    const overlay = new LookupResolver()
+
+    const response = await overlay.query({
+        service: 'ls_helloworld',
+        query: {
+            limit: 10,
+            skip: 0,
+            sortOrder: 'desc'
+        }
+    }, 10000)
+
+    console.log('Recent messages:', response)
+    return response
+}
+```
+
+## 📄 Upload Files to BSV
+
+You can also store files on BSV using distributed storage:
+
+```typescript
+import { WalletClient, StorageUploader, Utils } from '@bsv/sdk'
+
+export async function uploadFile() {
+    const wallet = new WalletClient()
+
+    // Setup uploader
+    const uploader = new StorageUploader({
+        wallet,
+        storageURL: 'https://nanostore.babbage.systems'
+    })
+
+    // Your file data
+    const fileContent = 'This is my important document'
+    const data = Utils.toArray(fileContent, 'utf8')
+
+    // Upload the file
+    const response = await uploader.publishFile({
+        file: {
+            data,
+            type: 'text/plain'
+        },
+        retentionPeriod: 180 // minutes
+    })
+
+    console.log('File uploaded! URL:', response.publicURL)
+    console.log('UHRP URL:', response.uhrpURL)
+    return response
+}
+```
+
+### Download Files
+
+```typescript
+import { StorageDownloader, Utils } from '@bsv/sdk'
+
+export async function downloadFile(uhrpURL: string) {
+    const downloader = new StorageDownloader()
+    
+    // Download using UHRP URL
+    const response = await downloader.download(uhrpURL)
+    const text = Utils.toUTF8(response.data)
+
+    console.log('File content:', text)
+    return text
+}
+```
+
+## 🔐 Understanding Transaction Security
+
+### How WalletClient Protects You
+
+1. **Permission-Based**: Apps request specific actions
+2. **User Approval**: You approve each transaction
+3. **Key Isolation**: Apps never see your private keys
+4. **Action Descriptions**: Clear explanations of what will happen
+
+### Transaction Flow
 
 ```mermaid
 graph TD
-    A[BSV Application] -->|Auth Request| B[Metanet Desktop]
-    B -->|User Approval| C[Permission Grant]
-    A -->|Transaction Request| B
-    B -->|Signed Transaction| A
-    A -->|Broadcast| D[BSV Network]
+    A[Your App] -->|createAction| B[WalletClient]
+    B -->|User Reviews| C[Wallet UI]
+    C -->|User Approves| D[Sign Transaction]
+    D -->|Broadcast| E[BSV Network]
+    E -->|Confirmation| F[Action Complete]
 ```
 
-## 🚀 Making Your First Transaction
+## 🎯 Common Patterns
 
-### Step 1: Install a Compatible Application
+### 1. Simple Payment Transaction
 
-Metanet Desktop works with applications built for the Metanet ecosystem. Popular options include:
-
-1. **Twetch** - Social media platform
-2. **RelayX** - Super app with wallet features
-3. **MetaStreme** - Media streaming platform
-4. **Custom BSV Apps** - Any app using Metanet protocols
-
-### Step 2: Connect Application to Metanet Desktop
-
-1. Open the BSV application
-2. Click "Connect with Metanet" or similar
-3. Metanet Desktop will prompt for permission
-4. Review requested permissions:
-   - Read identity
-   - Sign transactions
-   - Access specific data
-5. Approve the connection
-
-### Step 3: Application-Initiated Transactions
-
-Once connected, the application can:
-
-```javascript
-// Example: Application requests transaction signing
-const transaction = {
-    outputs: [{
-        to: 'recipient-address',
-        amount: 100000, // satoshis
-        data: ['Hello', 'BSV']
-    }]
-};
-
-// Request signing from Metanet Desktop
-const signedTx = await metanet.signTransaction(transaction);
-
-// Application broadcasts the signed transaction
-const txid = await broadcast(signedTx);
+```typescript
+export async function makePayment(amount: number, description: string) {
+    const wallet = new WalletClient()
+    
+    const response = await wallet.createAction({
+        description: `Payment: ${description}`,
+        outputs: [{
+            satoshis: amount,
+            lockingScript: Script.fromASM('OP_DUP OP_HASH160 <pubkeyhash> OP_EQUALVERIFY OP_CHECKSIG').toHex(),
+            outputDescription: description
+        }]
+    })
+    
+    return response
+}
 ```
 
-## 📱 Real-World Transaction Flow
+### 2. Data Storage Transaction
 
-### Example: Social Media Post on Twetch
-
-1. **Compose Post** in Twetch application
-2. **Twetch Creates Transaction**:
-   - Post data
-   - Required fees
-   - Platform fees
-3. **Metanet Desktop Prompts**:
-   - "Twetch wants to sign a transaction"
-   - Shows transaction details
-   - Displays total cost
-4. **User Approves** in Metanet Desktop
-5. **Transaction Signed** and returned to Twetch
-6. **Twetch Broadcasts** to BSV network
-7. **Post Appears** on the platform
-
-## 💡 Understanding Metanet Transactions
-
-### Transaction Types via Applications
-
-1. **Data Storage**
-   - Social media posts
-   - File uploads
-   - Application data
-
-2. **Token Operations**
-   - Token transfers
-   - NFT minting
-   - Smart contract interactions
-
-3. **Identity Operations**
-   - Profile updates
-   - Attestations
-   - Verifications
-
-4. **Application-Specific**
-   - In-app purchases
-   - Service payments
-   - Subscription fees
-
-## 🔐 Security Model
-
-### Permission-Based Access
-
-Applications must request specific permissions:
-
-```
-✅ Read public profile
-✅ Sign transactions up to 0.01 BSV
-❌ Access private messages
-❌ Sign unlimited transactions
+```typescript
+export async function storeData(dataString: string) {
+    const wallet = new WalletClient()
+    const data = Utils.toArray(dataString, 'utf8')
+    
+    const response = await wallet.createAction({
+        description: 'Store data on-chain',
+        outputs: [{
+            satoshis: 0,
+            lockingScript: Script.fromASM(`OP_FALSE OP_RETURN ${data}`).toHex(),
+            outputDescription: 'Data storage'
+        }]
+    })
+    
+    return response
+}
 ```
 
-### Transaction Approval
+### 3. Token Transfer
 
-Every transaction requires explicit approval:
-- See exactly what you're signing
-- Review costs before approving
-- Revoke permissions anytime
-
-## 🛠️ Developer Perspective
-
-### Building Apps for Metanet Desktop
-
-```javascript
-// Initialize Metanet connection
-const metanet = new MetanetSDK({
-    app: 'MyApp',
-    permissions: ['identity', 'transactions']
-});
-
-// Request authentication
-const identity = await metanet.authenticate();
-
-// Create and sign transaction
-const tx = await metanet.createTransaction({
-    data: {
-        type: 'post',
-        content: 'Hello from MyApp!'
-    },
-    outputs: [{
-        amount: calculateFee(),
-        to: 'app-address'
-    }]
-});
-
-// Broadcast transaction
-const result = await metanet.broadcast(tx);
+```typescript
+export async function transferToken(tokenOutpoint: string, recipientScript: string) {
+    const wallet = new WalletClient()
+    
+    // Get the token details
+    const list = await wallet.listOutputs({
+        basket: 'my-tokens',
+        include: 'entire transactions'
+    })
+    
+    const token = list.outputs.find(o => o.outpoint === tokenOutpoint)
+    if (!token) throw new Error('Token not found')
+    
+    // Transfer the token
+    const response = await wallet.createAction({
+        description: 'Transfer token',
+        inputBEEF: list.BEEF,
+        inputs: [{
+            outpoint: token.outpoint,
+            unlockingScript: Script.fromASM('OP_TRUE').toHex(),
+            inputDescription: 'Token to transfer'
+        }],
+        outputs: [{
+            satoshis: token.satoshis,
+            lockingScript: recipientScript,
+            outputDescription: 'Token transfer'
+        }]
+    })
+    
+    return response
+}
 ```
 
-## 🎯 Common Use Cases
+## 📊 Transaction Fees
 
-### 1. Social Media Interactions
-- Post content
-- Like/comment
-- Follow users
-- Send tips
+BSV transaction fees are extremely low:
 
-### 2. Content Creation
-- Upload files
-- Mint NFTs
-- Create tokens
-- Publish articles
-
-### 3. Gaming
-- In-game purchases
-- Save game states
-- Trade items
-- Tournament entries
-
-### 4. Business Applications
-- Sign documents
-- Create invoices
-- Process payments
-- Manage permissions
-
-## 📊 Transaction Management
-
-### Viewing Transaction History
-
-1. **In Metanet Desktop**:
-   - See approved transactions
-   - Review permissions granted
-   - Monitor application activity
-
-2. **In Applications**:
-   - Application-specific history
-   - Detailed transaction records
-   - Export capabilities
-
-3. **On Block Explorers**:
-   - [WhatsOnChain](https://whatsonchain.com)
-   - Full transaction details
-   - On-chain verification
+```typescript
+// Typical fee calculation
+const typicalFeeRate = 1 // satoshi per byte
+const typicalTxSize = 250 // bytes
+const totalFee = typicalFeeRate * typicalTxSize // 250 satoshis
+const feeInUSD = (totalFee / 100000000) * bsvPrice // ~$0.0001
+```
 
 ## 🔧 Troubleshooting
 
 ### Common Issues
 
-**Application Can't Connect**
-- Ensure Metanet Desktop is running
-- Check firewall settings
-- Verify application compatibility
+**"Wallet not connected"**
+- Ensure wallet extension/app is installed
+- Check if user has approved connection
 
-**Transaction Rejected**
-- Insufficient balance
-- Permission not granted
-- Application error
+**"Insufficient funds"**
+- Check wallet balance
+- Account for transaction fees
 
-**Signing Failed**
-- Check Metanet Desktop logs
-- Verify identity is unlocked
-- Review transaction details
+**"Action rejected"**
+- User declined the transaction
+- Review action description clarity
 
 ## 📚 Next Steps
 
-Now that you understand Metanet Desktop:
+Now that you've created your first transactions:
 
-1. **[Explore Compatible Apps](examples.md)** - Find applications to use
-2. **[Developer Guide](../03-learning-pathways/technical/README.md)** - Build your own apps
-3. **[Security Best Practices](../02-foundations/core-concepts.md)** - Stay safe
-4. **[Advanced Features](../04-specialized-topics/README.md)** - Power user guide
+1. **[Explore SDK Documentation](https://docs.bsvblockchain.org)** - Deep dive into capabilities
+2. **[Build Applications](../03-learning-pathways/technical/README.md)** - Create your own BSV apps
+3. **[Learn About Overlays](../04-specialized-topics/README.md)** - Specialized services
+4. **[Join the Community](https://discord.gg/bsv)** - Get help and share ideas
 
 ## 🔗 Resources
 
-### For Users
-- [Metanet Desktop Documentation](https://docs.metanet.desktop)
-- [Compatible Applications List](https://metanet.apps)
-- [Community Support](https://discord.gg/metanet)
+### SDK References
+- [@bsv/sdk Documentation](https://github.com/bitcoin-sv/ts-sdk)
+- [WalletClient API](https://docs.bsvblockchain.org/walletclient)
+- [Overlay Services](https://docs.bsvblockchain.org/overlays)
 
-### For Developers
-- [Metanet SDK](https://github.com/metanet/sdk)
-- [Integration Guide](https://docs.metanet.dev)
-- [Example Applications](https://github.com/metanet/examples)
+### Example Applications
+- [BSV App Examples](https://github.com/bitcoin-sv/examples)
+- [Token Protocols](https://github.com/bitcoin-sv/tokens)
+- [Storage Examples](https://github.com/bitcoin-sv/storage)
 
 ---
 
-**Remember**: Metanet Desktop empowers you to interact with BSV applications securely while maintaining control of your keys and identity. It's not about sending to addresses directly - it's about enabling rich application experiences on BSV!
+**Congratulations!** You've learned how to create BSV transactions using the WalletClient SDK. This modern approach gives you powerful capabilities while keeping your keys secure. Keep exploring and building!
