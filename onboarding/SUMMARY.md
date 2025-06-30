@@ -4,9 +4,6 @@
 
 * [🌍 Welcome](README.md)
 * [Universal Knowledge Base](00-welcome/README.md)
-  * [Complete Ecosystem Map](00-welcome/universal-overview.md)
-  * [Quick Wins](00-welcome/quick-wins.md)
-  * [Navigation Guide](00-welcome/navigation-guide.md)
 
 ## Getting Started
 

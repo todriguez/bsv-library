@@ -60,11 +60,6 @@ You'll find everything you need here, organized logically and accessible to all 
 - **[Send Your First Transaction](../01-getting-started/first-transaction.md)** - 10 minutes
 - **[Explore Live Demos](../01-getting-started/live-demos.md)** - See BSV in action
 
-### For Strategic Planning
-
-- **[Universal Overview](universal-overview.md)** - Complete ecosystem map
-- **[Quick Wins](quick-wins.md)** - Immediate value propositions
-- **[Navigation Guide](navigation-guide.md)** - Detailed resource guide
 
 ## 💡 Key Differentiators
 
