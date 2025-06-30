@@ -86,39 +86,6 @@ You'll find everything you need here, organized logically and accessible to all 
 - **Supply Chain** - End-to-end traceability
 - **Digital Assets** - Tokens and NFTs at scale
 
-## 🎓 Learning Approaches
-
-### Self-Paced Learning
-Follow the structured pathways at your own pace. Each section builds on previous knowledge.
-
-### Project-Based Learning
-Use the hackathon pack and examples to learn by building real applications.
-
-### Reference-Based Learning
-Jump directly to specific topics as needed for your projects.
-
-### Assessment-Based Learning
-Test your knowledge with pathway-specific assessments.
-
-## 🤝 Community & Support
-
-### Get Help
-- **[BSV Discord](https://discord.gg/bsv)** - Real-time community support
-- **[Developer Forums](https://github.com/bitcoin-sv/bsv/discussions)** - Technical discussions
-- **[Stack Overflow](https://stackoverflow.com/questions/tagged/bsv)** - Q&A platform
-
-### Stay Updated
-- **[BSV Blog](https://bitcoinsv.com/blog)** - Latest news and updates
-- **[Technical Standards](https://tsc.bitcoinassociation.net/)** - Protocol updates
-- **[GitHub](https://github.com/bitcoin-sv)** - Code repositories
-
-## 📊 Success Metrics
-
-Track your progress through:
-- ✅ Completed sections
-- 🏆 Assessments passed
-- 💻 Projects built
-- 🤝 Community contributions
 
 ## 🎯 Your Next Step
 
