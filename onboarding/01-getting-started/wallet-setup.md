@@ -35,8 +35,6 @@ If you're building BSV applications, you need Metanet Desktop Wallet. For simple
 | Wallet | Best For | Key Features |
 |--------|----------|--------------|
 | **Metanet Desktop** | Application Developers | Build BSV apps, WalletClient SDK, Identity management |
-| **ElectrumSV** | Advanced Users | SPV, Hardware wallet support, Multi-sig |
-| **Bitcoin SV Node** | Node Operators | Full blockchain, Mining capability |
 
 ### Mobile Wallets
 
@@ -52,15 +50,17 @@ If you're building BSV applications, you need Metanet Desktop Wallet. For simple
 |--------|----------|-------------|
 | **MoneyButton** | Web payments | JavaScript SDK |
 | **Tokenized Wallet** | Token management | API access |
-| **Web3 Wallets** | dApp interaction | Browser extension |
 
-### Developer Wallets
+### For Developers: SPV Architecture
 
-| Solution | Purpose | Documentation |
-|----------|---------|---------------|
-| **SDK Wallets** | App integration | Language-specific |
-| **SPV Wallet Server** | Infrastructure | Self-hosted |
-| **Test Wallets** | Development | Testnet only |
+**Important**: Don't run full nodes (SVNode/Teranode) unless you're a miner. All wallets should use SPV (Simplified Payment Verification) against local headers as recommended in the [technical FAQ](../03-learning-pathways/technical/developer-faq.md).
+
+⚠️ **Node Software Warning**: SVNode and Teranode are for miners only. ElectrumSV is no longer actively supported. Use SPV-based solutions instead.
+
+| Approach | Best For | Key Benefits |
+|----------|----------|--------------|
+| **Metanet Desktop + SPV** | Application developers | Secure, lightweight, fast |
+| **SDK with SPV** | Custom applications | Full control, optimized performance |
 
 ## 🔐 Security Best Practices
 
@@ -109,21 +109,20 @@ go get github.com/libsv/go-sdk
 
 ### For Businesses
 
-1. **Set up corporate wallet**
-   - Multi-signature setup
-   - Role-based access
-   - Audit trail configuration
+1. **Choose the right approach**
+   - HandCash/CentBee for employee payments
+   - Metanet Desktop for building business applications
+   - Custom SPV integration for high-volume needs
 
 2. **Integration options**
-   - API connectivity
-   - Payment processing
-   - Accounting integration
+   - API connectivity with wallet providers
+   - WalletClient SDK for custom apps
+   - BSV services for specialized needs
 
 ### For Personal Use
 
-1. **Mobile wallet** for daily use
-2. **Desktop wallet** for savings
-3. **Hardware wallet** for large amounts
+**For Payments**: Use HandCash or CentBee
+**For Development**: Use Metanet Desktop with SPV
 
 ## 💰 Funding Your Wallet
 
